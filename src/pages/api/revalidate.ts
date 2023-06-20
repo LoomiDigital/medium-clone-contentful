@@ -16,9 +16,7 @@ export default async function handler(
 
     const reqBody = JSON.parse(req.body);
 
-    const slug = reqBody.fields.slug["en-US"];
-
-    await res.revalidate(`/post/${slug}`);
+    await res.revalidate("/");
 
     console.log("Revalidated");
     return res.json({ revalidated: true });
