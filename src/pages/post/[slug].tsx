@@ -1,6 +1,7 @@
 import React from "react";
-import client from "@d20/contentful/client";
+import { GetStaticProps } from "next";
 
+import client from "@d20/contentful/client";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { options } from "@d20/components/ContentfulElements";
 
@@ -70,20 +71,23 @@ function PostPage({
 
 export default PostPage;
 
-// export const getStaticPaths = async () => {
+export const getStaticPaths = async () => {
+  const posts = await client.getEntries({ content_type: "post" });
 
-// };
+  const paths = posts.items.map(({ fields }) => ({
+    params: { slug: fields.slug },
+  }));
 
-type PageParams = {
-  params: {
-    slug: string;
+  return {
+    paths,
+    fallback: false,
   };
 };
 
-export const getServerSideProps = async ({ params }: PageParams) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = await client.getEntries({
     content_type: "post",
-    "fields.slug[match]": params.slug,
+    "fields.slug[match]": params?.slug,
   });
 
   return {
