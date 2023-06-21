@@ -37,6 +37,8 @@ function PostPage({
           alt={coverImageFields?.title as string}
           width={876}
           height={160}
+          sizes="(max-width: 768px) 70vw,
+                    50vw"
         />
       )}
 

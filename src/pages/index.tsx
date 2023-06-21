@@ -49,6 +49,8 @@ export default function Home({
                     alt={coverImage.fields?.title as string}
                     width={400}
                     height={240}
+                    sizes="(max-width: 768px) 70vw,
+                    50vw"
                   />
                 )}
                 <div className="flex justify-between p-5 bg-white">
