@@ -1,5 +1,5 @@
 import React from "react";
-import { GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 import client from "@d20/contentful/client";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -71,11 +71,11 @@ function PostPage({
 
 export default PostPage;
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await client.getEntries({ content_type: "post" });
 
-  const paths = posts.items.map(({ fields }) => ({
-    params: { slug: fields.slug },
+  const paths = posts?.items?.map(({ fields }) => ({
+    params: { slug: fields.slug as IPostFields["slug"] },
   }));
 
   return {
