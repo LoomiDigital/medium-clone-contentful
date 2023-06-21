@@ -15,17 +15,18 @@ export default async function handler(
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"
 
     const reqBody = JSON.parse(req.body);
+
     const type = reqBody.sys.type;
 
     if (type === "DeletedEntry") {
-      console.log("DeletedEntry");
+      console.log("Entry deleted");
       await res.revalidate("/");
       return res.json({ revalidated: true });
     }
 
-    await res.revalidate(`/post/${reqBody.fields.slug}`);
+    await res.revalidate(`/post/${reqBody.fields.slug["en-US"]}`);
 
-    console.log("Revalidated");
+    console.log("Entry revalidated");
     return res.json({ revalidated: true });
   } catch (err) {
     // If there was an error, Next.js will continue
