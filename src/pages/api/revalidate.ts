@@ -15,8 +15,15 @@ export default async function handler(
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"
 
     const reqBody = JSON.parse(req.body);
+    const type = reqBody.sys.type;
 
-    await res.revalidate("/");
+    if (type === "DeletedEntry") {
+      console.log("DeletedEntry");
+      await res.revalidate("/");
+      return res.json({ revalidated: true });
+    }
+
+    await res.revalidate(`/post/${reqBody.fields.slug}`);
 
     console.log("Revalidated");
     return res.json({ revalidated: true });
