@@ -11,20 +11,16 @@ export default async function handler(
   }
 
   try {
-    // this should be the actual path not a rewritten path
-    // e.g. for "/blog/[slug]" this should be "/blog/post-1"
-
     const reqBody = JSON.parse(req.body);
 
-    const type = reqBody.sys.type;
+    await res.revalidate("/");
 
-    if (type === "DeletedEntry") {
-      console.log("Entry deleted");
-      await res.revalidate("/");
-      return res.json({ revalidated: true });
+    const { type, revision } = reqBody.sys;
+
+    if (type !== "DeletedEntry" && revision > 1) {
+      console.log("Entry deleted or updated");
+      await res.revalidate(`/post/${reqBody.fields.slug["en-US"]}`);
     }
-
-    await res.revalidate(`/post/${reqBody.fields.slug["en-US"]}`);
 
     console.log("Entry revalidated");
     return res.json({ revalidated: true });
