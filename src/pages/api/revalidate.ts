@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const reqBody = JSON.parse(req.body);
+    const reqBody: ReqBody = JSON.parse(req.body);
 
     await res.revalidate("/");
 
@@ -25,8 +25,6 @@ export default async function handler(
     console.log("Entry revalidated");
     return res.json({ revalidated: true });
   } catch (err) {
-    // If there was an error, Next.js will continue
-    // to show the last successfully generated page
     return res.status(500).send("Error revalidating");
   }
 }

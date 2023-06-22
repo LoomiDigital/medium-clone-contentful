@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Link from "next/link";
 
-function Header() {
+function Header(): ReactElement {
   return (
     <header className="flex items-center justify-between p-5 max-w-7xl mx-auto">
       <div className="flex items-center space-x-5">

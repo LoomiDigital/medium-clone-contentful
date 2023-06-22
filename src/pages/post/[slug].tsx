@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 import client from "@d20/contentful/client";
@@ -23,7 +23,7 @@ function PostPage({
     fields: { title, headline, author, coverImage, mainText },
     sys: { createdAt },
   },
-}: Props) {
+}: Props): ReactElement {
   const authorFields = author?.fields as IAuthorFields;
   const coverImageFields = coverImage?.fields;
 
@@ -87,10 +87,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const post = await client.getEntries({
+  const post = (await client.getEntries({
     content_type: "post",
     "fields.slug[match]": params?.slug,
-  });
+  })) as { items: IPost[] };
 
   return {
     props: {

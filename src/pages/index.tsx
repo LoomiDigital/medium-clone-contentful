@@ -4,6 +4,7 @@ import Image from "next/image";
 import { GetStaticProps } from "next";
 import {
   IAuthorFields,
+  IHeroHeader,
   IHeroHeaderFields,
   IPost,
   IPostFields,
@@ -12,6 +13,7 @@ import {
 import Header from "@d20/components/Header";
 import Banner from "@d20/components/Banner";
 import client from "@d20/contentful/client";
+import { ReactElement } from "react";
 
 interface HomeProps {
   heroHeader: IHeroHeaderFields;
@@ -21,7 +23,7 @@ interface HomeProps {
 export default function Home({
   posts,
   heroHeader: { heading, subheading, logo },
-}: HomeProps) {
+}: HomeProps): ReactElement {
   return (
     <div className="max-w-7xl mx-auto">
       <Head>
@@ -78,9 +80,9 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const heroHeader = await client.getEntries({
+  const heroHeader = (await client.getEntries({
     content_type: "heroHeader",
-  });
+  })) as { items: IHeroHeader[] };
 
   const posts = await client.getEntries({
     content_type: "post",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { IHeroHeaderFields } from "@d20/contentful/types/generated/contentful";
 
 interface BannerProps {
@@ -7,7 +7,7 @@ interface BannerProps {
   logo: IHeroHeaderFields["logo"];
 }
 
-function Banner({ heading, subheading, logo }: BannerProps) {
+function Banner({ heading, subheading, logo }: BannerProps): ReactElement {
   const logoUrl = `http:${logo?.fields?.file?.url}`;
 
   return (

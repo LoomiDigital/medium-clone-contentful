@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { BLOCKS, Inline, INLINES } from "@contentful/rich-text-types";
 
 type Children = {
   children: ReactNode;
 };
 
-const Text = ({ children }: Children) => (
+const Text = ({ children }: Children): ReactElement => (
   <p className="my-5 text-black-700">{children}</p>
 );
 
